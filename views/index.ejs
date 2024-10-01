@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Application</title>
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="mt-5 text-center">Check the Weather and Write a Funny Tweet</h1>
+                <form action="/create" method="POST">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="title" placeholder="Post Title" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="content" class="form-control" rows="5" placeholder="Post Content" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="city" placeholder="City Name" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="mt-5 text-center">Created Posts</h2>
+                <ul class="list-group">
+                    <% posts.forEach((post, index) => { %>
+                        <li class="list-group-item">
+                            <h3><%= post.title %></h3>
+                            <p><%= post.content %></p>
+                            <small>By <%= post.name %> on <%= post.date %></small>
+                            <div class="d-flex justify-content-between mt-3">
+                                <form action="/delete/<%= index %>" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                                <a href="/edit/<%= index %>" class="btn btn-secondary btn-sm">Edit</a>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+
+                <% if (weather) { %>
+                    <div class="alert alert-info mt-5">
+                        <h4>Weather in <%= weather.name %></h4>
+                        <p>Temperature: <%= weather.main.temp %>°C</p>
+                        <p>Condition: <%= weather.weather[0].description %></p>
+                        <p>Humidity: <%= weather.main.humidity %>%</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
